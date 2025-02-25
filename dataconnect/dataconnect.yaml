@@ -1,0 +1,12 @@
+specVersion: "v1beta"
+serviceId: "guasapp"
+location: "us-central1"
+schema:
+  source: "./schema"
+  datasource:
+    postgresql:
+      database: "fdcdb"
+      cloudSql:
+        instanceId: "guasapp-fdc"
+      # schemaValidation: "COMPATIBLE"
+connectorDirs: ["./connector"]

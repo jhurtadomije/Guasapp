@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guasapp</title>
+    <link rel="stylesheet" href="assets/css/estilos.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+
+<!-- Landing Page -->
+<div id="landing-page">
+    <div class="landing">
+        <h1>Bienvenido a Guasapp</h1>
+        <p>Inicia sesión o regístrate para empezar a chatear.</p>
+
+        <!-- Botón para desplegar opciones -->
+        <button id="start-button">Empezar</button>
+
+        <!-- Contenedor de opciones (Oculto por defecto) -->
+        <div id="auth-options" style="display: none;">
+            <!-- Registro -->
+            <h3>Registrarse</h3>
+            <input type="text" id="register-name" placeholder="Nombre">
+            <input type="email" id="register-email" placeholder="Correo">
+            <input type="password" id="register-password" placeholder="Contraseña">
+            <button onclick="registerWithEmail()">Registrarse</button>
+
+            <!-- Inicio de sesión -->
+            <h3>Iniciar sesión</h3>
+            <input type="email" id="login-email" placeholder="Correo">
+            <input type="password" id="login-password" placeholder="Contraseña">
+            <button onclick="loginWithEmail()">Iniciar sesión</button>
+
+            <p>O inicia sesión con:</p>
+            <button onclick="loginWithGoogle()">
+                <span class="material-icons">login</span> Google
+            </button>
+            <button onclick="enterAsGuest()">
+                <span class="material-icons">person</span> Invitado
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para seleccionar avatar -->
+<div id="avatar-modal" class="modal">
+    <div class="modal-content">
+        <h3>Selecciona tu avatar</h3>
+        <div id="avatar-selection"></div>
+        <button id="confirm-avatar" onclick="confirmAvatar()">Confirmar</button>
+        <button id="close-modal" onclick="closeAvatarModal()">Cancelar</button>
+    </div>
+</div>
+
+<!-- Chat (Oculto por defecto) -->
+<div id="chat-container" style="display: none;">
+    <div class="sidebar">
+        <h2>Usuarios Conectados</h2>
+        <ul id="user-list"></ul>
+    </div>
+
+    <div class="chat">
+        <div class="chat-header">
+            <h2>Sala Común</h2>
+            <button onclick="logout()">Cerrar Sesión</button>
+        </div>
+
+        <div class="messages" id="messages"></div>
+
+        <!-- Evento escribiendo -->
+        <div id="typing-indicator" style="font-style: italic; color: gray; padding: 5px;"></div>
+
+        <!-- Input del mensaje + Botón de enviar -->
+        <div class="chat-input">
+            <input type="text" id="message" placeholder="Escribe un mensaje..." onkeydown="checkEnter(event)">
+            <button onclick="sendMessage()" id="send-button">Enviar</button>
+
+            <!-- Botón para adjuntar archivos -->
+            <button id="attach-button">
+                <span class="material-icons">attach_file</span>
+            </button>
+            <input type="file" id="file-input" accept="image/*,.pdf,.doc,.mp3,.mp4" style="display: none;">
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="http://localhost:5000/socket.io/socket.io.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.3.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.3.1/firebase-auth-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="index.js"></script>
+
+</body>
+</html>
