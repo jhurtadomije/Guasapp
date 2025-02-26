@@ -74,10 +74,20 @@ function showChat() {
 
 // Registrar usuario con email y contraseña
 function registerWithEmail() {
-    const name = document.getElementById("register-name").value;
-    const status = document.getElementById("register-status").value || "Disponible"; // Estado por defecto
-    const email = document.getElementById("register-email").value;
-    const password = document.getElementById("register-password").value;
+    const nameInput = document.getElementById("register-name");
+    const emailInput = document.getElementById("register-email");
+    const passwordInput = document.getElementById("register-password");
+
+    // Verifica si los elementos existen antes de acceder a `.value`
+    if (!nameInput || !emailInput || !passwordInput) {
+        console.error("❌ Error: No se encontraron los campos de registro.");
+        alert("Error: No se encontraron los campos de registro. Intenta recargar la página.");
+        return;
+    }
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
 
     if (!name || !email || !password) {
         alert("Por favor, completa todos los campos.");
@@ -87,45 +97,71 @@ function registerWithEmail() {
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((userCredential) => userCredential.user.updateProfile({ displayName: name }))
         .then(() => {
-            user = {
+            console.log("✅ Registro exitoso. Mostrando selección de avatar...");
+
+            // Guardamos temporalmente los datos sin avatar
+            pendingLoginData = {
                 name: name,
-                status: status, // Guardamos el estado del usuario
-                email: email,
-                avatar: "avatars/default.png"
+                email: email
             };
-            localStorage.setItem("user", JSON.stringify(user));
-            showChat();
-            socket.emit("join", user);
+
+            // Abre el modal para seleccionar avatar
+            openAvatarModal();
         })
-        .catch((error) => alert("Error en el registro: " + error.message));
+        .catch((error) => {
+            console.error("❌ Error en el registro:", error);
+            alert("Error en el registro: " + error.message);
+        });
 }
+
 
 // Iniciar sesión con email y contraseña
 function loginWithEmail() {
-    const email = document.getElementById("login-email").value;
-    const password = document.getElementById("login-password").value;
+    const emailInput = document.getElementById("login-email");
+    const passwordInput = document.getElementById("login-password");
+
+    if (!emailInput || !passwordInput) {
+        console.error("❌ Error: No se encontraron los campos de inicio de sesión.");
+        alert("Error: No se encontraron los campos de inicio de sesión. Intenta recargar la página.");
+        return;
+    }
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
     const status = prompt("Escribe tu estado actual (Ej: Disponible, Ocupado, etc.)") || "Disponible";
+
+    if (!email || !password) {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
 
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
-            user = {
+            console.log("✅ Inicio de sesión exitoso. Mostrando selección de avatar...");
+
+            // Guardamos temporalmente los datos sin avatar
+            pendingLoginData = {
                 name: userCredential.user.displayName || "Usuario",
-                status: status, // Se le asigna el estado ingresado
-                email: userCredential.user.email,
-                avatar: "avatars/default.png"
+                email: userCredential.user.email
             };
-            localStorage.setItem("user", JSON.stringify(user));
-            showChat();
-            socket.emit("join", user);
+
+            // Abre el modal para seleccionar avatar
+            openAvatarModal();
         })
-        .catch((error) => alert("Error en inicio de sesión: " + error.message));
+        .catch((error) => {
+            console.error("❌ Error en inicio de sesión:", error);
+            alert("Error en inicio de sesión: " + error.message);
+        });
 }
+
 
 function loginWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider)
         .then((result) => {
             console.log("✅ Inicio de sesión con Google exitoso. Mostrando selección de avatar...");
+
+            const status = prompt("Escribe tu estado actual (Ej: Disponible, Ocupado, etc.)") || "Disponible";
             pendingLoginData = {
                 name: result.user.displayName,
                 email: result.user.email
@@ -198,7 +234,7 @@ socket.on("userTyping", ({ user }) => {
     }, 2000); // Desaparece después de 2 segundos sin actividad
 });
 
-    // Envío de archivos
+// Envío de archivos
 function sendFile(event) {
     event.preventDefault(); // ⛔ Evita recarga inesperada
 
@@ -300,14 +336,6 @@ socket.on("fileMessage", (fileData) => {
     messagesContainer.appendChild(fileElement);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 });
-
-
-
-
-
-
-
-
 
 // Detectar Enter para enviar mensaje
 function checkEnter(event) {
@@ -411,6 +439,7 @@ function confirmAvatar() {
     user = {
         name: pendingLoginData.name,
         email: pendingLoginData.email,
+        status: pendingLoginData.status,
         avatar: `/assets/imagenes/${selectedAvatar}`
     };
 
@@ -424,6 +453,3 @@ function confirmAvatar() {
     // Cerrar el modal
     closeAvatarModal();
 }
-
-
-

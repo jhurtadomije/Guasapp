@@ -1,4 +1,3 @@
-// Esperar a que Firebase esté completamente cargado antes de inicializarlo
 document.addEventListener("DOMContentLoaded", function () {
     console.log("🔍 Verificando carga de Firebase...");
 
