@@ -351,3 +351,53 @@ body {
         margin-top: 5px;
     }
 }
+/* Estilo para la pantalla de bienvenida con imagen de fondo */
+#landing-page {
+    background: url('../imagenes/background-welcome.png') no-repeat center center;
+    background-size: cover; /* Para que cubra toda la pantalla */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    text-align: center;
+    padding: 20px;
+    color: white; /* Hace el texto más visible */
+    position: relative;
+}
+
+/* Capa oscura para mejorar la legibilidad del texto */
+#landing-page::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad si lo necesitas */
+    z-index: 1;
+}
+
+/* Asegurar que el contenido de bienvenida esté por encima */
+.landing {
+    position: relative;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.3); /* Opcional: Agrega un fondo sutil al contenido */
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Ajustar los botones */
+.landing button {
+    background: #128c7e;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+.landing button:hover {
+    background: #0d6e63;
+}
