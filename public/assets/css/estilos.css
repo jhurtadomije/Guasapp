@@ -353,7 +353,7 @@ body {
 }
 /* Estilo para la pantalla de bienvenida con imagen de fondo */
 #landing-page {
-    background: url('../imagenes/'Background-welcome.PNG') no-repeat center center;
+    background: url('../imagenes/Background-welcome.PNG') no-repeat center center;
     background-size: cover; /* Para que cubra toda la pantalla */
     display: flex;
     justify-content: center;
