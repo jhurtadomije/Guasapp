@@ -14,5 +14,6 @@
     <orderEntry type="library" name="firebase-app-compat" level="application" />
     <orderEntry type="library" name="firebase-auth-compat" level="application" />
     <orderEntry type="library" name="firebase-analytics-compat" level="application" />
+    <orderEntry type="library" name="socket.io" level="application" />
   </component>
 </module>
