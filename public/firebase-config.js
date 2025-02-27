@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+window.onload = function() {
     console.log("🔍 Verificando carga de Firebase...");
 
     if (typeof firebase !== "undefined") {
@@ -28,4 +28,4 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         console.error("❌ Firebase no se ha cargado correctamente.");
     }
-});
+};
