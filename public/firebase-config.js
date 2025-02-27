@@ -1,4 +1,7 @@
-window.onload = function() {
+
+// Usamos DOMContentLoaded porque con window.onload me da problemas en el inicio de sesion con firebase.
+
+document.addEventListener("DOMContentLoaded", function () {
     console.log("🔍 Verificando carga de Firebase...");
 
     if (typeof firebase !== "undefined") {
@@ -28,4 +31,4 @@ window.onload = function() {
     } else {
         console.error("❌ Firebase no se ha cargado correctamente.");
     }
-};
+});
